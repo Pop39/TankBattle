@@ -14,7 +14,7 @@ class World:
         self.width = width
         self.height = height
  
-        self.tank = Tank(self, width // 2, height // 2)
+        self.tank = Tank(self, 50, 50)
  
  
     def update(self, delta):
