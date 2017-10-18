@@ -22,13 +22,11 @@ class ModelSprite(arcade.Sprite):
 class TankBattleWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
- 
+
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        self.tank_sprite = ModelSprite('images/tank.png',
-                                        model=self.world.tank)
-        self.tank_sprite.set_position(50,50)
+        self.tank_sprite = ModelSprite('images/tank.png', model=self.world.tank)
         self.bird_sprite = arcade.Sprite('images/bird.png')
         self.bird_sprite.set_position(300,20)
         self.wall_sprite = arcade.Sprite('images/stonewall.png')
@@ -43,6 +41,12 @@ class TankBattleWindow(arcade.Window):
         self.tank_sprite.draw()
         self.bird_sprite.draw()
         self.wall_sprite.draw()
+
+    def on_key_press(self, key, key_modifiers):
+        self.world.on_key_press(key, key_modifiers)
+
+    def on_key_release(self, key, key_modifiers):
+        self.world.on_key_release(key, key_modifiers)
  
 def main():
     window = TankBattleWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
