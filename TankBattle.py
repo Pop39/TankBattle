@@ -19,6 +19,21 @@ class ModelSprite(arcade.Sprite):
         self.sync_with_model()
         super().draw() 
 
+class ListSprite(arcade.Sprite):
+    def __init__(self, *args, **kwargs):
+        self.model = kwargs.pop('model', None)
+        super().__init__(*args, **kwargs)
+ 
+    def sync_with_model(self):
+        if self.model:
+            for x,y in self.model.list:
+                super().draw()
+                self.set_position(x,y)
+ 
+    def draw(self):
+        self.sync_with_model()
+
+
 class TankBattleWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
@@ -26,11 +41,12 @@ class TankBattleWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        self.tank_sprite = ModelSprite('images/tank.png', model=self.world.tank)
-        self.bird_sprite = arcade.Sprite('images/bird.png')
-        self.bird_sprite.set_position(300,20)
-        self.wall_sprite = arcade.Sprite('images/stonewall.png')
-        self.wall_sprite.set_position(240,20)
+        self.tank_sprite = ModelSprite('images/tankU.png', model=self.world.tank)
+        self.tank2_sprite = ModelSprite('images/tankD.png', model=self.world.tank2)
+        #self.bullet_sprite = ListSprite('images/shot.png', model=self.world.bullet)
+        self.bird_sprite = ModelSprite('images/bird.png', model=self.world.bird)
+        self.bird2_sprite = ModelSprite('images/bird.png', model=self.world.bird2)
+        self.wall_sprite = ListSprite('images/stonewall.png', model=self.world.wall)
 
     def update(self, delta):
         self.world.update(delta)
@@ -39,7 +55,10 @@ class TankBattleWindow(arcade.Window):
         arcade.start_render()
  
         self.tank_sprite.draw()
+        self.tank2_sprite.draw()
+        #self.bullet_sprite.draw()
         self.bird_sprite.draw()
+        self.bird2_sprite.draw()
         self.wall_sprite.draw()
 
     def on_key_press(self, key, key_modifiers):
